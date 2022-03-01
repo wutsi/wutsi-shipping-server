@@ -104,6 +104,8 @@ paths:
             enum:
               - enabled
               - message
+              - rate
+              - delivery-time
       requestBody:
         required: true
         content:
@@ -252,10 +254,21 @@ components:
         enabled:
           type: boolean
           description: Enabled or Disabled
+        rate:
+          type: number
+          format: double
+          description: Detault Rate
+          nullable: true
+        deliveryTime:
+          type: integer
+          description: Delivery Time in hours
+          nullable: true
         rates:
           type: array
           items:
             $ref: "#/components/schemas/Rate"
+          description: Other rate per region
+
 
     GetShippingResponse:
       type: object
@@ -285,6 +298,15 @@ components:
         enabled:
           type: boolean
           description: Enabled or Disabled
+        rate:
+          type: number
+          format: double
+          description: Detault Rate
+          nullable: true
+        deliveryTime:
+          type: integer
+          description: Delivery Time in hours
+          nullable: true
 
     ListShippingResponse:
       type: object

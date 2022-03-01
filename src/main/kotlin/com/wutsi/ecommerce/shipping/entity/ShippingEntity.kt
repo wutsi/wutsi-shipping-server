@@ -24,6 +24,8 @@ data class ShippingEntity(
 
     var message: String? = null,
     var enabled: Boolean = true,
+    var deliveryTime: Int? = null,
+    var rate: Double? = null,
 
     val created: OffsetDateTime = OffsetDateTime.now(),
     val updated: OffsetDateTime = OffsetDateTime.now(),

@@ -38,6 +38,8 @@ class UpdateShippingAttributeDelegate(
         when (name.lowercase()) {
             "enabled" -> shipping.enabled = toString(request.value)?.toBoolean() ?: false
             "message" -> shipping.message = toString(request.value)
+            "rate" -> shipping.rate = toDouble(request.value)
+            "delivery-time" -> shipping.deliveryTime = toInt(request.value)
             else -> throw BadRequestException(
                 error = Error(
                     code = ErrorURN.ATTRIBUTE_INVALID.urn,
@@ -53,14 +55,14 @@ class UpdateShippingAttributeDelegate(
     }
 
     private fun toString(value: String?): String? =
-        if (value?.isNullOrEmpty() == true)
+        if (value.isNullOrEmpty())
             null
         else
             value.toString().trim()
 
-    private fun toBoo(value: String?): String? =
-        if (value?.isNotEmpty() == true)
-            null
-        else
-            value.toString().trim()
+    private fun toDouble(value: String?): Double? =
+        toString(value)?.toDouble()
+
+    private fun toInt(value: String?): Int? =
+        toString(value)?.toInt()
 }

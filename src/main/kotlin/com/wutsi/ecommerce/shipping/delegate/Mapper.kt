@@ -12,6 +12,8 @@ fun ShippingEntity.toShipping() = Shipping(
     type = this.type.name,
     message = this.message,
     enabled = this.enabled,
+    rate = this.rate,
+    deliveryTime = this.deliveryTime,
     rates = this.rates.map { it.toRate() }
 )
 
@@ -19,7 +21,9 @@ fun ShippingEntity.toShippingSummary() = ShippingSummary(
     id = this.id ?: -1,
     accountId = this.accountId,
     type = this.type.name,
-    enabled = this.enabled
+    enabled = this.enabled,
+    rate = this.rate,
+    deliveryTime = this.deliveryTime,
 )
 
 fun RateEntity.toRate() = Rate(
