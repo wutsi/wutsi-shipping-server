@@ -2,7 +2,7 @@ package com.wutsi.ecommerce.shipping.endpoint
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.wutsi.ecommerce.shipping.dao.ShippingRepository
-import com.wutsi.ecommerce.shipping.dto.UpdateShippingRequest
+import com.wutsi.ecommerce.shipping.dto.UpdateShippingAttributeRequest
 import com.wutsi.ecommerce.shipping.error.ErrorURN
 import com.wutsi.platform.core.error.ErrorResponse
 import org.junit.jupiter.api.Test
@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = ["/db/clean.sql", "/db/UpdateShippingController.sql"])
-class UpdateShippingControllerTest : AbstractSecuredController() {
+class UpdateShippingAttributeControllerTest : AbstractSecuredController() {
     @LocalServerPort
     val port: Int = 0
 
@@ -24,27 +24,54 @@ class UpdateShippingControllerTest : AbstractSecuredController() {
     private lateinit var dao: ShippingRepository
 
     @Test
-    fun update() {
-        val url = "http://localhost:$port/v1/shippings/100"
-        val request = UpdateShippingRequest(
-            message = "Hello world",
-            enabled = true
+    fun enabled() {
+        val url = "http://localhost:$port/v1/shippings/100/attributes/enabled"
+        val request = UpdateShippingAttributeRequest(
+            value = "true",
         )
         val response = rest.postForEntity(url, request, Any::class.java)
 
         assertEquals(200, response.statusCodeValue)
 
         val shipping = dao.findById(100).get()
-        assertEquals(request.message, shipping.message)
-        assertEquals(request.enabled, shipping.enabled)
+        assertEquals(true, shipping.enabled)
+    }
+
+    @Test
+    fun message() {
+        val url = "http://localhost:$port/v1/shippings/100/attributes/message"
+        val request = UpdateShippingAttributeRequest(
+            value = "Yo Man",
+        )
+        val response = rest.postForEntity(url, request, Any::class.java)
+
+        assertEquals(200, response.statusCodeValue)
+
+        val shipping = dao.findById(100).get()
+        assertEquals(request.value, shipping.message)
+    }
+
+    @Test
+    fun badName() {
+        val url = "http://localhost:$port/v1/shippings/100/attributes/xxx"
+        val request = UpdateShippingAttributeRequest(
+            value = "Yo Man",
+        )
+        val ex = assertThrows<HttpClientErrorException> {
+            rest.postForEntity(url, request, Any::class.java)
+        }
+
+        assertEquals(400, ex.rawStatusCode)
+
+        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
+        assertEquals(ErrorURN.ATTRIBUTE_INVALID.urn, response.error.code)
     }
 
     @Test
     fun notFound() {
-        val url = "http://localhost:$port/v1/shippings/9999"
-        val request = UpdateShippingRequest(
-            message = "Hello world",
-            enabled = true
+        val url = "http://localhost:$port/v1/shippings/9999/attributes/message"
+        val request = UpdateShippingAttributeRequest(
+            value = "Yo Man",
         )
         val ex = assertThrows<HttpClientErrorException> {
             rest.postForEntity(url, request, Any::class.java)
@@ -58,10 +85,9 @@ class UpdateShippingControllerTest : AbstractSecuredController() {
 
     @Test
     fun badUser() {
-        val url = "http://localhost:$port/v1/shippings/120"
-        val request = UpdateShippingRequest(
-            message = "Hello world",
-            enabled = true
+        val url = "http://localhost:$port/v1/shippings/120/attributes/message"
+        val request = UpdateShippingAttributeRequest(
+            value = "Yo Man",
         )
         val ex = assertThrows<HttpClientErrorException> {
             rest.postForEntity(url, request, Any::class.java)
@@ -75,10 +101,9 @@ class UpdateShippingControllerTest : AbstractSecuredController() {
 
     @Test
     fun badTenant() {
-        val url = "http://localhost:$port/v1/shippings/200"
-        val request = UpdateShippingRequest(
-            message = "Hello world",
-            enabled = true
+        val url = "http://localhost:$port/v1/shippings/200/attributes/message"
+        val request = UpdateShippingAttributeRequest(
+            value = "Yo Man",
         )
         val ex = assertThrows<HttpClientErrorException> {
             rest.postForEntity(url, request, Any::class.java)

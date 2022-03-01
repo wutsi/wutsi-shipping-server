@@ -29,6 +29,6 @@ public class ListShippingControllerTest : AbstractSecuredController() {
 
         assertEquals(101, shippings[1].id)
         assertEquals(false, shippings[1].enabled)
-        assertEquals(ShippingType.EMAIL_DELIVERY.name, shippings[1].type)
+        assertEquals(ShippingType.INTERNATIONAL_SHIPPING.name, shippings[1].type)
     }
 }

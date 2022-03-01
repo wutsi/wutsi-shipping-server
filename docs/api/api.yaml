@@ -82,8 +82,10 @@ paths:
       security:
         - api_key: [ 'shipping-read' ]
 
+
+  /v1/shippings/{id}/attributes/{name}:
     post:
-      operationId: "update-shipping"
+      operationId: "update-shipping-attribute"
       description: Update a shipping method
       parameters:
         - in: path
@@ -93,12 +95,21 @@ paths:
           schema:
             type: integer
             format: int64
+        - in: path
+          name: name
+          description: name of the attributes
+          required: true
+          schema:
+            type: string
+            enum:
+              - enabled
+              - message
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateShippingRequest'
+              $ref: '#/components/schemas/UpdateShippingAttributeRequest'
       responses:
         200:
           description: Success
@@ -188,16 +199,13 @@ components:
           format: int64
           description: ID of the shipping created
 
-    UpdateShippingRequest:
+    UpdateShippingAttributeRequest:
       type: object
       properties:
-        message:
+        value:
           type: string
-          description: Message to display to customer
+          description: Value of the attribute
           nullable: true
-        enabled:
-          type: boolean
-          description: Enabled or Disabled
 
     Rate:
       type: object
