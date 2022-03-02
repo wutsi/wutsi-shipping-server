@@ -1,10 +1,10 @@
 package com.wutsi.ecommerce.shipping.delegate
 
-import com.wutsi.ecommerce.shipping.dto.Rate
+import com.wutsi.ecommerce.shipping.dto.RateSummary
 import com.wutsi.ecommerce.shipping.dto.Shipping
 import com.wutsi.ecommerce.shipping.dto.ShippingSummary
-import com.wutsi.ecommerce.shipping.entity.RateEntity
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
+import com.wutsi.ecommerce.shipping.service.ShippingGateway
 
 fun ShippingEntity.toShipping() = Shipping(
     id = this.id ?: -1,
@@ -13,8 +13,10 @@ fun ShippingEntity.toShipping() = Shipping(
     message = this.message,
     enabled = this.enabled,
     rate = this.rate,
+    currency = this.currency,
     deliveryTime = this.deliveryTime,
-    rates = this.rates.map { it.toRate() }
+    cityId = this.cityId,
+    country = this.country,
 )
 
 fun ShippingEntity.toShippingSummary() = ShippingSummary(
@@ -23,12 +25,16 @@ fun ShippingEntity.toShippingSummary() = ShippingSummary(
     type = this.type.name,
     enabled = this.enabled,
     rate = this.rate,
+    currency = this.currency,
     deliveryTime = this.deliveryTime,
+    cityId = this.cityId,
+    country = this.country,
 )
 
-fun RateEntity.toRate() = Rate(
-    id = this.id ?: -1,
-    country = this.country,
-    cityId = this.cityId,
-    amount = this.amount
+fun ShippingEntity.toRateSummary(gateway: ShippingGateway) = RateSummary(
+    shippingId = this.id ?: -1,
+    shippingType = this.type.name,
+    rate = gateway.computeRate(this),
+    currency = this.currency,
+    deliveryTime = this.deliveryTime
 )

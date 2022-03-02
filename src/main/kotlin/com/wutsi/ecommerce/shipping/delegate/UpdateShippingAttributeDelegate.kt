@@ -32,6 +32,7 @@ class UpdateShippingAttributeDelegate(
                     )
                 )
             }
+
         securityManager.checkTenant(shipping)
         securityManager.checkOwnership(shipping)
 
@@ -40,6 +41,8 @@ class UpdateShippingAttributeDelegate(
             "message" -> shipping.message = toString(request.value)
             "rate" -> shipping.rate = toDouble(request.value)
             "delivery-time" -> shipping.deliveryTime = toInt(request.value)
+            "country" -> shipping.country = toString(request.value)
+            "city-id" -> shipping.cityId = toLong(request.value)
             else -> throw BadRequestException(
                 error = Error(
                     code = ErrorURN.ATTRIBUTE_INVALID.urn,
@@ -65,4 +68,7 @@ class UpdateShippingAttributeDelegate(
 
     private fun toInt(value: String?): Int? =
         toString(value)?.toInt()
+
+    private fun toLong(value: String?): Long? =
+        toString(value)?.toLong()
 }

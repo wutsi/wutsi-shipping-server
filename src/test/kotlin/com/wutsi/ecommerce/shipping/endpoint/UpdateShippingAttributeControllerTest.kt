@@ -80,6 +80,34 @@ class UpdateShippingAttributeControllerTest : AbstractSecuredController() {
     }
 
     @Test
+    fun country() {
+        val url = "http://localhost:$port/v1/shippings/100/attributes/country"
+        val request = UpdateShippingAttributeRequest(
+            value = "CM",
+        )
+        val response = rest.postForEntity(url, request, Any::class.java)
+
+        assertEquals(200, response.statusCodeValue)
+
+        val shipping = dao.findById(100).get()
+        assertEquals(request.value, shipping.country)
+    }
+
+    @Test
+    fun cityId() {
+        val url = "http://localhost:$port/v1/shippings/100/attributes/city-id"
+        val request = UpdateShippingAttributeRequest(
+            value = "12323",
+        )
+        val response = rest.postForEntity(url, request, Any::class.java)
+
+        assertEquals(200, response.statusCodeValue)
+
+        val shipping = dao.findById(100).get()
+        assertEquals(request.value?.toLong(), shipping.cityId)
+    }
+
+    @Test
     fun badName() {
         val url = "http://localhost:$port/v1/shippings/100/attributes/xxx"
         val request = UpdateShippingAttributeRequest(

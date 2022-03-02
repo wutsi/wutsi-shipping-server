@@ -19,8 +19,8 @@
   </parent>
 
   <properties>
-    <jacoco.threshold.line>0.90</jacoco.threshold.line>
-    <jacoco.threshold.class>0.90</jacoco.threshold.class>
+    <jacoco.threshold.line>0.92</jacoco.threshold.line>
+    <jacoco.threshold.class>0.92</jacoco.threshold.class>
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
     <jdk.version>11</jdk.version>
 
@@ -33,6 +33,8 @@
     <hikari-cp.version>5.0.0</hikari-cp.version>
     <postgresql.version>42.2.24</postgresql.version>
     <flyway.version>7.15.0</flyway.version>
+
+    <wutsi-catalog.version>0.0.26</wutsi-catalog.version>
     <wutsi-platform-core.version>0.0.101</wutsi-platform-core.version>
     <wutsi-tenant.version>0.0.19</wutsi-tenant.version>
   </properties>
@@ -47,6 +49,12 @@
       <groupId>com.wutsi.platform.tenant</groupId>
       <artifactId>wutsi-tenant-sdk-kotlin</artifactId>
       <version>${wutsi-tenant.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.wutsi.ecommerce.catalog</groupId>
+      <artifactId>wutsi-catalog-sdk-kotlin</artifactId>
+      <version>${wutsi-catalog.version}</version>
     </dependency>
 
     <dependency>

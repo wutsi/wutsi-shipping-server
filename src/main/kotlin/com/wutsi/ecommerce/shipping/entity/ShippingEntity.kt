@@ -6,7 +6,6 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -26,10 +25,10 @@ data class ShippingEntity(
     var enabled: Boolean = true,
     var deliveryTime: Int? = null,
     var rate: Double? = null,
+    var currency: String = "",
+    var country: String? = null,
+    var cityId: Long? = null,
 
     val created: OffsetDateTime = OffsetDateTime.now(),
     val updated: OffsetDateTime = OffsetDateTime.now(),
-
-    @OneToMany(mappedBy = "shipping")
-    val rates: List<RateEntity> = emptyList()
 )

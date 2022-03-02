@@ -1,6 +1,5 @@
 package com.wutsi.ecommerce.shipping.service
 
-import com.wutsi.ecommerce.shipping.entity.RateEntity
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.error.ErrorURN
 import com.wutsi.platform.core.error.Error
@@ -22,9 +21,6 @@ class SecurityManager(
                 )
             )
     }
-
-    fun checkOwnership(rate: RateEntity) =
-        checkTenant(rate.shipping)
 
     fun checkTenant(shipping: ShippingEntity) {
         if (shipping.tenantId != tenantId())

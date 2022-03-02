@@ -23,7 +23,9 @@ class CreateShippingControllerTest : AbstractSecuredController() {
         val url = "http://localhost:$port/v1/shippings"
         val request = CreateShippingRequest(
             type = ShippingType.LOCAL_DELIVERY.name,
-            message = "Hello world"
+            message = "Hello world",
+            country = "CM",
+            cityId = 111
         )
         val response = rest.postForEntity(url, request, CreateShippingResponse::class.java)
 
@@ -33,7 +35,9 @@ class CreateShippingControllerTest : AbstractSecuredController() {
         assertEquals(request.type, shipping.type.name)
         assertEquals(request.message, shipping.message)
         assertEquals(true, shipping.enabled)
-        assertEquals(AbstractSecuredController.USER_ID, shipping.accountId)
-        assertEquals(AbstractSecuredController.TENANT_ID, shipping.tenantId)
+        assertEquals(USER_ID, shipping.accountId)
+        assertEquals(TENANT_ID, shipping.tenantId)
+        assertEquals(request.country, shipping.country)
+        assertEquals(request.cityId, shipping.cityId)
     }
 }

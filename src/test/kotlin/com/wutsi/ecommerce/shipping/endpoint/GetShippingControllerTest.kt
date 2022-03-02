@@ -28,20 +28,12 @@ public class GetShippingControllerTest : AbstractSecuredController() {
         val shipping = response.body!!.shipping
         assertEquals(100, shipping.id)
         assertEquals(true, shipping.enabled)
-        assertEquals(ShippingType.LOCAL_DELIVERY.name, shipping.type)
-        assertEquals("Yo Man", shipping.message)
-
-        assertEquals(2, shipping.rates.size)
-
-        assertEquals(1001L, shipping.rates[0].id)
-        assertEquals(null, shipping.rates[0].cityId)
-        assertEquals("*", shipping.rates[0].country)
-        assertEquals(20000.0, shipping.rates[0].amount)
-
-        assertEquals(1002L, shipping.rates[1].id)
-        assertEquals(1111L, shipping.rates[1].cityId)
-        assertEquals("FR", shipping.rates[1].country)
-        assertEquals(25000.0, shipping.rates[1].amount)
+        assertEquals(ShippingType.LOCAL_PICKUP.name, shipping.type)
+        assertEquals("Local Pickup", shipping.message)
+        assertEquals("CM", shipping.country)
+        assertEquals(1111L, shipping.cityId)
+        assertEquals(30000.0, shipping.rate)
+        assertEquals("XAF", shipping.currency)
     }
 
     @Test

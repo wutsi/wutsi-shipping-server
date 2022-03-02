@@ -82,7 +82,6 @@ paths:
       security:
         - api_key: [ 'shipping-read' ]
 
-
   /v1/shippings/{id}/attributes/{name}:
     post:
       operationId: "update-shipping-attribute"
@@ -106,6 +105,8 @@ paths:
               - message
               - rate
               - delivery-time
+              - country
+              - city-id
       requestBody:
         required: true
         content:
@@ -124,19 +125,25 @@ paths:
       security:
         - api_key: [ 'shipping-manage' ]
 
-  /v1/rates:
+
+
+  /v1/rates/search:
     post:
-      operationId: "save-rate"
-      description: Save shipping rate
+      operationId: "search-rate"
+      description: Search for shipping rates
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SaveRateRequest'
+              $ref: '#/components/schemas/SearchRateRequest'
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchRateResponse'
         403:
           description: The caller is not authorized to call this endpoint
         409:
@@ -144,31 +151,8 @@ paths:
       tags:
         - Shipping
       security:
-        - api_key: [ 'shipping-manage' ]
+        - api_key: [ 'shipping-read' ]
 
-  /v1/rates/{id}:
-    delete:
-      operationId: "delete-rate"
-      description: Delete a rate
-      parameters:
-        - in: path
-          name: id
-          description: ID of the rate
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        200:
-          description: Success
-        403:
-          description: The caller is not authorized to call this endpoint
-        409:
-          description: Error
-      tags:
-        - Shipping
-      security:
-        - api_key: [ 'shipping-manage' ]
 
 components:
   securitySchemes:
@@ -188,6 +172,13 @@ components:
             - LOCAL_DELIVERY
             - EMAIL_DELIVERY
           description: Type of delivery
+        country:
+          type: string
+        cityId:
+          type: integer
+          format: int64
+          description: ID of the location
+          nullable: true
         message:
           type: string
           description: Message to display to customer
@@ -208,26 +199,6 @@ components:
           type: string
           description: Value of the attribute
           nullable: true
-
-    Rate:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: ID of the shipping rate
-        country:
-          type: string
-          description: Coutry code
-        cityId:
-          type: integer
-          format: int64
-          description: ID of the location
-          nullable: true
-        amount:
-          type: number
-          format: double
-          description: rate amount
 
     Shipping:
       type: object
@@ -259,15 +230,13 @@ components:
           format: double
           description: Detault Rate
           nullable: true
+        currency:
+          type: string
+          description: Currency
         deliveryTime:
           type: integer
           description: Delivery Time in hours
           nullable: true
-        rates:
-          type: array
-          items:
-            $ref: "#/components/schemas/Rate"
-          description: Other rate per region
 
 
     GetShippingResponse:
@@ -303,6 +272,9 @@ components:
           format: double
           description: Detault Rate
           nullable: true
+        currency:
+          type: string
+          description: Currency
         deliveryTime:
           type: integer
           description: Delivery Time in hours
@@ -316,22 +288,65 @@ components:
           items:
             $ref: "#/components/schemas/ShippingSummary"
 
-    SaveRateRequest:
+
+    Product:
       type: object
       properties:
-        shippingId:
+        productId:
           type: integer
           format: int64
           description: ID of the shipping
+        productType:
+          type: string
+          enum:
+            - PHYSISCAL
+            - NUMERIC
+
+    SearchRateRequest:
+      type: object
+      properties:
         country:
           type: string
-          description: Coutry code
         cityId:
           type: integer
           format: int64
           description: ID of the location
           nullable: true
-        amount:
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+
+    SearchRateResponse:
+      type: object
+      properties:
+        shippings:
+          type: array
+          items:
+            $ref: "#/components/schemas/RateSummary"
+
+    RateSummary:
+      type: object
+      properties:
+        shippingId:
+          type: integer
+          format: int64
+          description: ID of the shipping method
+        shippingType:
+          type: string
+          enum:
+            - LOCAL_PICKUP
+            - LOCAL_DELIVERY
+            - EMAIL_DELIVERY
+          description: Type of delivery
+        rate:
           type: number
           format: double
-          description: Shipping rate
+          description: Detault Rate
+        currency:
+          type: string
+          description: Currency
+        deliveryTime:
+          type: integer
+          description: Delivery Time in hours
+          nullable: true
