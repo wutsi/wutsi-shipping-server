@@ -237,6 +237,14 @@ components:
           type: integer
           description: Delivery Time in hours
           nullable: true
+        country:
+          type: string
+          nullable: true
+        cityId:
+          type: integer
+          format: int64
+          description: ID of the location
+          nullable: true
 
 
     GetShippingResponse:
@@ -279,6 +287,14 @@ components:
           type: integer
           description: Delivery Time in hours
           nullable: true
+        country:
+          type: string
+          nullable: true
+        cityId:
+          type: integer
+          format: int64
+          description: ID of the location
+          nullable: true
 
     ListShippingResponse:
       type: object
@@ -305,6 +321,13 @@ components:
     SearchRateRequest:
       type: object
       properties:
+        shippingId:
+          type: integer
+          format: int64
+          nullable: true
+        accountId:
+          type: integer
+          format: int64
         country:
           type: string
         cityId:
@@ -316,11 +339,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Product"
+      required:
+        - country
+        - products
 
     SearchRateResponse:
       type: object
       properties:
-        shippings:
+        rates:
           type: array
           items:
             $ref: "#/components/schemas/RateSummary"
