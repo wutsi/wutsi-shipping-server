@@ -17,6 +17,7 @@ class InternationalDeliveryGateway(
         val result = shipping.country != null && shipping.country.equals(request.country, true)
 
         logger.add("gateway_international", result)
+        logger.add("gateway_international_country", shipping.country)
         return result
     }
 }

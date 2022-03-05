@@ -17,6 +17,7 @@ class LocalPickupGateway(
         val result = shipping.cityId != null && request.cityId == shipping.cityId
 
         logger.add("gateway_pickup", result)
+        logger.add("gateway_pickup_city_id", shipping.cityId)
         return result
     }
 }

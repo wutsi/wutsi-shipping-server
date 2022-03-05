@@ -17,6 +17,7 @@ class LocalDeliveryGateway(
         val result = shipping.cityId != null && request.cityId == shipping.cityId
 
         logger.add("gateway_local", result)
+        logger.add("gateway_local_city_id", shipping.cityId)
         return result
     }
 }
