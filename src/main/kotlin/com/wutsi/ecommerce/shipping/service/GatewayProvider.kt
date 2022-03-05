@@ -9,12 +9,17 @@ import com.wutsi.ecommerce.shipping.service.gateway.LocalPickupGateway
 import org.springframework.stereotype.Service
 
 @Service
-class GatewayProvider {
+class GatewayProvider(
+    private val email: EmailDeliveryGateway,
+    private val pickup: LocalPickupGateway,
+    private val international: InternationalDeliveryGateway,
+    private val local: LocalDeliveryGateway
+) {
     fun get(shipping: ShippingEntity): ShippingGateway =
         when (shipping.type) {
-            ShippingType.EMAIL_DELIVERY -> EmailDeliveryGateway()
-            ShippingType.LOCAL_PICKUP -> LocalPickupGateway()
-            ShippingType.INTERNATIONAL_SHIPPING -> InternationalDeliveryGateway()
-            ShippingType.LOCAL_DELIVERY -> LocalDeliveryGateway()
+            ShippingType.EMAIL_DELIVERY -> email
+            ShippingType.LOCAL_PICKUP -> pickup
+            ShippingType.INTERNATIONAL_SHIPPING -> international
+            ShippingType.LOCAL_DELIVERY -> local
         }
 }

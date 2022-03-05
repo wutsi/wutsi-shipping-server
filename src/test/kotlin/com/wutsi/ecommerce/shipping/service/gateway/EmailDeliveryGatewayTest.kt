@@ -1,5 +1,6 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
+import com.nhaarman.mockitokotlin2.mock
 import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.shipping.dto.Product
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class EmailDeliveryGatewayTest {
-    private val gateway = EmailDeliveryGateway()
+    private val gateway = EmailDeliveryGateway(mock())
 
     @Test
     fun allProductNumeric() {

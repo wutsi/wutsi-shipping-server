@@ -1,5 +1,6 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
+import com.nhaarman.mockitokotlin2.mock
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -7,7 +8,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class LocalDeliveryGatewayTest {
-    private val gateway = LocalDeliveryGateway()
+    private val gateway = LocalDeliveryGateway(mock())
 
     @Test
     fun sameCity() {

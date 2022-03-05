@@ -15,6 +15,7 @@ public class SearchRateDelegate(
     private val provider: GatewayProvider
 ) {
     public fun invoke(request: SearchRateRequest): SearchRateResponse {
+        logger.add("account_id", request.accountId)
         logger.add("country", request.country)
         logger.add("cityId", request.cityId)
         logger.add("product_count", request.products.size)

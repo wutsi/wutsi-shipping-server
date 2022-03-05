@@ -3,11 +3,20 @@ package com.wutsi.ecommerce.shipping.service.gateway
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.service.ShippingGateway
+import com.wutsi.platform.core.logging.KVLogger
+import org.springframework.stereotype.Service
 
-class InternationalDeliveryGateway : ShippingGateway {
+@Service
+class InternationalDeliveryGateway(
+    private val logger: KVLogger
+) : ShippingGateway {
     /**
-     * Not ready yet
+     * Accept if the shopping contry is different
      */
-    override fun accept(request: SearchRateRequest, shipping: ShippingEntity): Boolean =
-        shipping.country != null && shipping.country.equals(request.country, true)
+    override fun accept(request: SearchRateRequest, shipping: ShippingEntity): Boolean {
+        val result = shipping.country != null && shipping.country.equals(request.country, true)
+
+        logger.add("gateway_international", result)
+        return result
+    }
 }
