@@ -28,6 +28,8 @@ data class ShippingEntity(
     var currency: String = "",
     var country: String? = null,
     var cityId: Long? = null,
+    var zipCode: String? = null,
+    var street: String? = null,
 
     val created: OffsetDateTime = OffsetDateTime.now(),
     val updated: OffsetDateTime = OffsetDateTime.now(),

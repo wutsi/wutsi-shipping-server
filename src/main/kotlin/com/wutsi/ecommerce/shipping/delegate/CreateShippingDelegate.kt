@@ -27,7 +27,9 @@ class CreateShippingDelegate(
                 tenantId = tenant.id,
                 currency = tenant.currency,
                 cityId = request.cityId,
-                country = request.country
+                country = request.country,
+                zipCode = request.zipCode,
+                street = request.street
             )
         )
         return CreateShippingResponse(id = shipping.id!!)

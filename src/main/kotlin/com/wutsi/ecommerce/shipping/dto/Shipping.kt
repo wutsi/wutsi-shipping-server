@@ -16,5 +16,7 @@ public data class Shipping(
     public val currency: String = "",
     public val deliveryTime: Int? = null,
     public val country: String? = null,
-    public val cityId: Long? = null
+    public val cityId: Long? = null,
+    public val street: String? = null,
+    public val zipCode: String? = null
 )

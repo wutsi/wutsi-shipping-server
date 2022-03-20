@@ -107,6 +107,8 @@ paths:
               - delivery-time
               - country
               - city-id
+              - zip-code
+              - street
       requestBody:
         required: true
         content:
@@ -183,6 +185,12 @@ components:
           type: string
           description: Message to display to customer
           nullable: true
+        street:
+          type: string
+          nullable: true
+        zipCode:
+          type: string
+          nullable: true
 
     CreateShippingResponse:
       type: object
@@ -245,6 +253,12 @@ components:
           format: int64
           description: ID of the location
           nullable: true
+        street:
+          type: string
+          nullable: true
+        zipCode:
+          type: string
+          nullable: true
 
 
     GetShippingResponse:
@@ -294,6 +308,12 @@ components:
           type: integer
           format: int64
           description: ID of the location
+          nullable: true
+        street:
+          type: string
+          nullable: true
+        zipCode:
+          type: string
           nullable: true
 
     ListShippingResponse:

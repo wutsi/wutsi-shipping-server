@@ -17,6 +17,8 @@ fun ShippingEntity.toShipping() = Shipping(
     deliveryTime = this.deliveryTime,
     cityId = this.cityId,
     country = this.country,
+    zipCode = this.zipCode,
+    street = this.street,
 )
 
 fun ShippingEntity.toShippingSummary() = ShippingSummary(
@@ -29,6 +31,8 @@ fun ShippingEntity.toShippingSummary() = ShippingSummary(
     deliveryTime = this.deliveryTime,
     cityId = this.cityId,
     country = this.country,
+    zipCode = this.zipCode,
+    street = this.street,
 )
 
 fun ShippingEntity.toRateSummary(gateway: ShippingGateway) = RateSummary(
