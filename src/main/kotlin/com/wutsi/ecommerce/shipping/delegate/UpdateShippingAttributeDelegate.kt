@@ -43,6 +43,8 @@ class UpdateShippingAttributeDelegate(
             "delivery-time" -> shipping.deliveryTime = toInt(request.value)
             "country" -> shipping.country = toString(request.value)
             "city-id" -> shipping.cityId = toLong(request.value)
+            "zip-code" -> shipping.zipCode = toString(request.value)
+            "street" -> shipping.street = toString(request.value)
             else -> throw BadRequestException(
                 error = Error(
                     code = ErrorURN.ATTRIBUTE_INVALID.urn,
