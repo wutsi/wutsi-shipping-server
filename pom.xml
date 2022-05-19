@@ -28,13 +28,13 @@
     <junit.version>5.8.2</junit.version>
     <kotlin.version>1.6.21</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
-    <klint.version>0.42.1</klint.version>
+    <klint.version>0.45.2</klint.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     <hikari-cp.version>5.0.1</hikari-cp.version>
     <postgresql.version>42.3.5</postgresql.version>
     <flyway.version>8.5.10</flyway.version>
 
-    <wutsi-catalog.version>0.0.26</wutsi-catalog.version>
+    <wutsi-catalog.version>0.0.40</wutsi-catalog.version>
     <wutsi-platform-core.version>0.0.101</wutsi-platform-core.version>
     <wutsi-tenant.version>0.0.19</wutsi-tenant.version>
   </properties>
