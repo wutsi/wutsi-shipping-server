@@ -25,9 +25,9 @@ class SearchRateControllerTest : AbstractSecuredController() {
             country = "CM",
             cityId = 1000,
             products = listOf(
-                Product(productId = 1L, productType = ProductType.NUMERIC.name),
-                Product(productId = 2L, productType = ProductType.PHYSICAL.name),
-                Product(productId = 3L, productType = ProductType.PHYSICAL.name),
+                Product(productId = 1L, productType = ProductType.NUMERIC.name, quantity = 1),
+                Product(productId = 2L, productType = ProductType.PHYSICAL.name, quantity = 3),
+                Product(productId = 3L, productType = ProductType.PHYSICAL.name, quantity = 1),
             )
         )
         val response = rest.postForEntity(url, request, SearchRateResponse::class.java)
