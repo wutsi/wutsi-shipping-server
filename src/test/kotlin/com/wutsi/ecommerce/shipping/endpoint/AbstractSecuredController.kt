@@ -18,6 +18,8 @@ import com.wutsi.platform.tenant.dto.Logo
 import com.wutsi.platform.tenant.dto.MobileCarrier
 import com.wutsi.platform.tenant.dto.PhonePrefix
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.dto.Toggle
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.web.client.RestTemplate
@@ -74,6 +76,12 @@ abstract class AbstractSecuredController {
                         Logo(type = "PICTORIAL", url = "http://www.goole.com/images/orange.png")
                     )
                 )
+            ),
+            toggles = listOf(
+                Toggle(name = ToggleName.SHIPPING_LOCAL_PICKUP.name),
+                Toggle(name = ToggleName.SHIPPING_LOCAL_DELIVERY.name),
+                Toggle(name = ToggleName.SHIPPING_INTERNATIONAL_DELIVERY.name),
+                Toggle(name = ToggleName.SHIPPING_EMAIL_DELIVERY.name)
             )
         )
         doReturn(GetTenantResponse(tenant)).whenever(tenantApi).getTenant(any())
