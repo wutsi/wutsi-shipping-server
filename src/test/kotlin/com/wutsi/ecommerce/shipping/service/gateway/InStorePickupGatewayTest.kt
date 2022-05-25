@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-internal class InternationalDeliveryGatewayTest {
-    private val gateway = InternationalDeliveryGateway(mock())
+internal class InStorePickupGatewayTest {
+    private val gateway = InStorePickupGateway(mock())
 
     @Test
     fun enabled() {
-        assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_IN_STORE_PICKUP)))
+        assertTrue(gateway.enabled(createTenant(ToggleName.SHIPPING_IN_STORE_PICKUP)))
         assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_EMAIL_DELIVERY)))
-        assertTrue(gateway.enabled(createTenant(ToggleName.SHIPPING_INTERNATIONAL_DELIVERY)))
+        assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_INTERNATIONAL_DELIVERY)))
         assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_LOCAL_DELIVERY)))
         assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_LOCAL_PICKUP)))
     }
@@ -27,23 +27,10 @@ internal class InternationalDeliveryGatewayTest {
     )
 
     @Test
-    fun sameCountry() {
-        val request = SearchRateRequest(country = "CM")
-        val shipping = ShippingEntity(country = "cm")
+    fun accept() {
+        val request = SearchRateRequest()
+        val shipping = ShippingEntity()
+
         assertTrue(gateway.accept(request, shipping))
-    }
-
-    @Test
-    fun differentCountry() {
-        val request = SearchRateRequest(country = "CM")
-        val shipping = ShippingEntity(country = null)
-        assertFalse(gateway.accept(request, shipping))
-    }
-
-    @Test
-    fun nullCountry() {
-        val request = SearchRateRequest(country = "CM")
-        val shipping = ShippingEntity(country = "FR")
-        assertFalse(gateway.accept(request, shipping))
     }
 }

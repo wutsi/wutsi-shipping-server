@@ -15,6 +15,7 @@ internal class LocalDeliveryGatewayTest {
 
     @Test
     fun enabled() {
+        assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_IN_STORE_PICKUP)))
         assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_EMAIL_DELIVERY)))
         assertFalse(gateway.enabled(createTenant(ToggleName.SHIPPING_INTERNATIONAL_DELIVERY)))
         assertTrue(gateway.enabled(createTenant(ToggleName.SHIPPING_LOCAL_DELIVERY)))
