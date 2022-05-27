@@ -7,5 +7,5 @@ INSERT INTO T_SHIPPING(id, tenant_id, account_id, type, message, enabled, countr
         (200, 2, 222, 1, null, true, 'CM', null, 0, 'XAF')
     ;
 
-INSERT INTO T_SHIPPING_ORDER(id, shipping_fk, tenant_id, merchant_id, order_id, status)
-    VALUES (100, 100, 1, 666, '777', 1)
+INSERT INTO T_SHIPPING_ORDER(id, shipping_fk, tenant_id, merchant_id, order_id, customer_id, status)
+    VALUES (100, 100, 1, 666, '777', 555, 1)

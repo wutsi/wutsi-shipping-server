@@ -541,6 +541,10 @@ components:
           type: integer
           format: int64
           description: ID of the merchant
+        customerId:
+          type: integer
+          format: int64
+          description: ID of the customer
         status:
           type: string
           description: Status of the shipping-order

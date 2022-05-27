@@ -30,6 +30,7 @@ public class CreateShippingOrderDelegate(
             ShippingOrderEntity(
                 orderId = order.id,
                 merchantId = order.merchantId,
+                customerId = order.accountId,
                 status = ShippingOrderStatus.CREATED,
                 shipping = shippingDao.findById(order.shippingId).get(),
                 tenantId = securityManager.tenantId()

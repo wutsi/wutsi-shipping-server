@@ -20,6 +20,7 @@ data class ShippingOrderEntity(
 
     val tenantId: Long = -1,
     val merchantId: Long = -1,
+    val customerId: Long = -1,
     val orderId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)

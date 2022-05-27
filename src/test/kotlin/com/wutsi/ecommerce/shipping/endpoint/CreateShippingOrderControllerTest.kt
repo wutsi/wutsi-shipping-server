@@ -22,9 +22,9 @@ import kotlin.test.assertNull
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = ["/db/clean.sql", "/db/CreateShippingOrderController.sql"])
-public class CreateShippingOrderControllerTest : AbstractSecuredController() {
+class CreateShippingOrderControllerTest : AbstractSecuredController() {
     @LocalServerPort
-    public val port: Int = 0
+    val port: Int = 0
 
     @MockBean
     private lateinit var orderApi: WutsiOrderApi
@@ -43,7 +43,7 @@ public class CreateShippingOrderControllerTest : AbstractSecuredController() {
     )
 
     @Test
-    public fun invoke() {
+    fun invoke() {
         // GIVEN
         doReturn(GetOrderResponse(order)).whenever(orderApi).getOrder(any())
 
@@ -58,6 +58,7 @@ public class CreateShippingOrderControllerTest : AbstractSecuredController() {
         val shippingOrder = shippingOrderDao.findById(response.body!!.id).get()
         assertEquals(TENANT_ID, shippingOrder.tenantId)
         assertEquals(order.merchantId, shippingOrder.merchantId)
+        assertEquals(order.accountId, shippingOrder.customerId)
         assertEquals(order.id, shippingOrder.orderId)
         assertEquals(ShippingOrderStatus.CREATED, shippingOrder.status)
 

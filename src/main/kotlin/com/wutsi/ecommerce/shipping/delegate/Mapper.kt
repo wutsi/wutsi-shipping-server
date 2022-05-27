@@ -50,5 +50,6 @@ fun ShippingOrderEntity.toShippingOrder() = ShippingOrder(
     merchantId = this.merchantId,
     status = this.status.name,
     shipping = this.shipping.toShipping(),
-    orderId = this.orderId
+    orderId = this.orderId,
+    customerId = this.customerId
 )
