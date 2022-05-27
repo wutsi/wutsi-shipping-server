@@ -38,6 +38,8 @@
     <wutsi-catalog.version>0.0.40</wutsi-catalog.version>
     <wutsi-platform-core.version>0.0.113</wutsi-platform-core.version>
     <wutsi-tenant.version>0.0.43</wutsi-tenant.version>
+
+    <wutsi-order.version>0.0.24</wutsi-order.version>
   </properties>
 
   <dependencies>
@@ -61,6 +63,11 @@
       <groupId>com.wutsi.ecommerce.catalog</groupId>
       <artifactId>wutsi-catalog-sdk-kotlin</artifactId>
       <version>${wutsi-catalog.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.ecommerce.order</groupId>
+      <artifactId>wutsi-order-sdk-kotlin</artifactId>
+      <version>${wutsi-order.version}</version>
     </dependency>
 
     <dependency>

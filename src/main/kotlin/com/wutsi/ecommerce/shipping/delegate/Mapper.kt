@@ -2,8 +2,10 @@ package com.wutsi.ecommerce.shipping.delegate
 
 import com.wutsi.ecommerce.shipping.dto.RateSummary
 import com.wutsi.ecommerce.shipping.dto.Shipping
+import com.wutsi.ecommerce.shipping.dto.ShippingOrder
 import com.wutsi.ecommerce.shipping.dto.ShippingSummary
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
+import com.wutsi.ecommerce.shipping.entity.ShippingOrderEntity
 import com.wutsi.ecommerce.shipping.service.ShippingGateway
 
 fun ShippingEntity.toShipping() = Shipping(
@@ -41,4 +43,13 @@ fun ShippingEntity.toRateSummary(gateway: ShippingGateway) = RateSummary(
     rate = gateway.computeRate(this),
     currency = this.currency,
     deliveryTime = this.deliveryTime
+)
+
+fun ShippingOrderEntity.toShippingOrder() = ShippingOrder(
+    id = this.id ?: -1,
+    accountId = this.accountId,
+    merchantId = this.merchantId,
+    status = this.status.name,
+    shipping = this.shipping.toShipping(),
+    orderId = this.orderId
 )
