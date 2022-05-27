@@ -2,15 +2,20 @@ package com.wutsi.ecommerce.shipping.endpoint
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.GetOrderResponse
 import com.wutsi.ecommerce.order.dto.Order
+import com.wutsi.ecommerce.order.dto.SetShippingOrderRequest
 import com.wutsi.ecommerce.shipping.dao.ShippingOrderRepository
 import com.wutsi.ecommerce.shipping.dao.ShippingOrderStatusRepository
 import com.wutsi.ecommerce.shipping.dto.CreateShippingOrderRequest
 import com.wutsi.ecommerce.shipping.dto.CreateShippingResponse
 import com.wutsi.ecommerce.shipping.entity.ShippingOrderStatus
+import com.wutsi.ecommerce.shipping.event.EventURN
+import com.wutsi.ecommerce.shipping.event.ShippingOrderEventPayload
+import com.wutsi.platform.core.stream.EventStream
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -25,6 +30,9 @@ import kotlin.test.assertNull
 class CreateShippingOrderControllerTest : AbstractSecuredController() {
     @LocalServerPort
     val port: Int = 0
+
+    @MockBean
+    private lateinit var eventStream: EventStream
 
     @MockBean
     private lateinit var orderApi: WutsiOrderApi
@@ -66,5 +74,9 @@ class CreateShippingOrderControllerTest : AbstractSecuredController() {
         assertEquals(1, status.size)
         assertEquals(ShippingOrderStatus.CREATED, status[0].status)
         assertNull(status[0].previousStatus)
+
+        verify(eventStream).publish(EventURN.SHIPPING_CREATED.urn, ShippingOrderEventPayload(shippingOrder.id!!))
+
+        verify(orderApi).setShippingOrder("100", SetShippingOrderRequest(shippingOrder.id!!))
     }
 }

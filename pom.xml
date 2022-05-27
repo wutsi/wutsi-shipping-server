@@ -39,7 +39,7 @@
     <wutsi-platform-core.version>0.0.113</wutsi-platform-core.version>
     <wutsi-tenant.version>0.0.43</wutsi-tenant.version>
 
-    <wutsi-order.version>0.0.24</wutsi-order.version>
+    <wutsi-order.version>0.0.25</wutsi-order.version>
   </properties>
 
   <dependencies>
