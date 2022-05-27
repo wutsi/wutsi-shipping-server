@@ -19,7 +19,6 @@ data class ShippingOrderEntity(
     val id: Long? = null,
 
     val tenantId: Long = -1,
-    val accountId: Long = -1,
     val merchantId: Long = -1,
     val orderId: String = "",
 

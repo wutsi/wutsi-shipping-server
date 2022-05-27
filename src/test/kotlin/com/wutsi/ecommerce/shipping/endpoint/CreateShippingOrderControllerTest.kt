@@ -56,7 +56,6 @@ public class CreateShippingOrderControllerTest : AbstractSecuredController() {
         assertEquals(200, response.statusCodeValue)
 
         val shippingOrder = shippingOrderDao.findById(response.body!!.id).get()
-        assertEquals(USER_ID, shippingOrder.accountId)
         assertEquals(TENANT_ID, shippingOrder.tenantId)
         assertEquals(order.merchantId, shippingOrder.merchantId)
         assertEquals(order.id, shippingOrder.orderId)

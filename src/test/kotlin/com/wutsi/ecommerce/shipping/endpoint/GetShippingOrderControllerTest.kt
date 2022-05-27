@@ -27,7 +27,6 @@ class GetShippingOrderControllerTest : AbstractSecuredController() {
         assertEquals(200, response.statusCodeValue)
 
         val shippingOrder = response.body!!.shippingOrder
-        assertEquals(555L, shippingOrder.accountId)
         assertEquals(666L, shippingOrder.merchantId)
         assertEquals("777", shippingOrder.orderId)
         assertEquals(ShippingOrderStatus.IN_TRANSIT.name, shippingOrder.status)

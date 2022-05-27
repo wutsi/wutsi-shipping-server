@@ -47,7 +47,6 @@ fun ShippingEntity.toRateSummary(gateway: ShippingGateway) = RateSummary(
 
 fun ShippingOrderEntity.toShippingOrder() = ShippingOrder(
     id = this.id ?: -1,
-    accountId = this.accountId,
     merchantId = this.merchantId,
     status = this.status.name,
     shipping = this.shipping.toShipping(),

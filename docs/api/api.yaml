@@ -219,8 +219,8 @@ paths:
           description: ID of the shipping order
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -537,10 +537,6 @@ components:
         orderId:
           type: string
           description: ID of order
-        accountId:
-          type: integer
-          format: int64
-          description: ID of the carrier
         merchantId:
           type: integer
           format: int64

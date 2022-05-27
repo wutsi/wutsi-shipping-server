@@ -29,14 +29,12 @@ public class CreateShippingOrderDelegate(
         val shippingOrder = orderDao.save(
             ShippingOrderEntity(
                 orderId = order.id,
-                accountId = securityManager.accountId(),
                 merchantId = order.merchantId,
                 status = ShippingOrderStatus.CREATED,
                 shipping = shippingDao.findById(order.shippingId).get(),
                 tenantId = securityManager.tenantId()
             )
         )
-        securityManager.checkTenant(shippingOrder)
 
         // Create the status
         statusDao.save(

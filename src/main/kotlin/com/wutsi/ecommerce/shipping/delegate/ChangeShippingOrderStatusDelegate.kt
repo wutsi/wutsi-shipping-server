@@ -20,9 +20,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.AbstractPersistable_
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
+import javax.transaction.Transactional
 
 @Service
-public class ChangeShippingOrderStatusDelegate(
+class ChangeShippingOrderStatusDelegate(
     private val shippingOrderDao: ShippingOrderRepository,
     private val statusDao: ShippingOrderStatusRepository,
     private val securityManager: SecurityManager,
@@ -32,6 +33,7 @@ public class ChangeShippingOrderStatusDelegate(
         private val LOGGER = LoggerFactory.getLogger(ChangeShippingOrderStatusDelegate::class.java)
     }
 
+    @Transactional
     fun invoke(id: Long, request: ChangeStatusRequest) {
         val shippingOrder = shippingOrderDao.findById(id)
             .orElseThrow {
@@ -47,7 +49,10 @@ public class ChangeShippingOrderStatusDelegate(
                 )
             }
         securityManager.checkTenant(shippingOrder)
+        changeStatus(shippingOrder, request)
+    }
 
+    fun changeStatus(shippingOrder: ShippingOrderEntity, request: ChangeStatusRequest) {
         if (request.status.equals(shippingOrder.status.name, true))
             return
         else if (request.status.equals(ShippingOrderStatus.READY_FOR_PICKUP.name, true))

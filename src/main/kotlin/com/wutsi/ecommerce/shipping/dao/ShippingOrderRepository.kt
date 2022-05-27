@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ShippingOrderRepository : CrudRepository<ShippingOrderEntity, Long>
+interface ShippingOrderRepository : CrudRepository<ShippingOrderEntity, Long> {
+    fun findByOrderId(orderId: String): List<ShippingOrderEntity>
+}
