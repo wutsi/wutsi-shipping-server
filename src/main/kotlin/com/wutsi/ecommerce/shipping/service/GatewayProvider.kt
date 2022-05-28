@@ -17,7 +17,7 @@ class GatewayProvider(
     private val international: InternationalDeliveryGateway,
     private val local: LocalDeliveryGateway
 ) {
-    fun get(shipping: ShippingEntity): ShippingGateway =
+    fun get(shipping: ShippingEntity): Gateway =
         when (shipping.type) {
             ShippingType.IN_STORE_PICKUP -> store
             ShippingType.EMAIL_DELIVERY -> email

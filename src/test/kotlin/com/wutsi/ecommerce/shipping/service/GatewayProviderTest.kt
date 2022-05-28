@@ -1,6 +1,7 @@
 package com.wutsi.ecommerce.shipping.service
 
 import com.nhaarman.mockitokotlin2.mock
+import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.entity.ShippingType
 import com.wutsi.ecommerce.shipping.service.gateway.EmailDeliveryGateway
@@ -13,9 +14,10 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class GatewayProviderTest {
+    private val orderApi: WutsiOrderApi = mock()
     private val logger = mock<KVLogger>()
     private val provider = GatewayProvider(
-        InStorePickupGateway(logger),
+        InStorePickupGateway(orderApi, logger),
         EmailDeliveryGateway(logger),
         LocalPickupGateway(logger),
         InternationalDeliveryGateway(logger),
