@@ -4,7 +4,7 @@ import com.wutsi.ecommerce.shipping.dto.ListShippingResponse
 import com.wutsi.ecommerce.shipping.entity.ShippingType
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.jdbc.Sql
 import kotlin.test.assertEquals
 
