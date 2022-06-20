@@ -1,6 +1,8 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
 import com.nhaarman.mockitokotlin2.mock
+import com.wutsi.ecommerce.catalog.entity.ProductType
+import com.wutsi.ecommerce.shipping.dto.Product
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.platform.tenant.dto.Tenant
@@ -28,7 +30,12 @@ internal class LocalDeliveryGatewayTest {
 
     @Test
     fun sameCity() {
-        val request = SearchRateRequest(cityId = 11)
+        val request = SearchRateRequest(
+            cityId = 11,
+            products = listOf(
+                Product(productId = 111, productType = ProductType.PHYSICAL.name)
+            )
+        )
         val shipping = ShippingEntity(cityId = 11L)
 
         assertTrue(gateway.accept(request, shipping))

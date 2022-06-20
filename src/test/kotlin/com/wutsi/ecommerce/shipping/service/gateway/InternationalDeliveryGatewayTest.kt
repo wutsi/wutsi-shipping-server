@@ -1,6 +1,8 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
 import com.nhaarman.mockitokotlin2.mock
+import com.wutsi.ecommerce.catalog.entity.ProductType
+import com.wutsi.ecommerce.shipping.dto.Product
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.platform.tenant.dto.Tenant
@@ -28,7 +30,12 @@ internal class InternationalDeliveryGatewayTest {
 
     @Test
     fun sameCountry() {
-        val request = SearchRateRequest(country = "CM")
+        val request = SearchRateRequest(
+            country = "CM",
+            products = listOf(
+                Product(productId = 111, productType = ProductType.PHYSICAL.name)
+            )
+        )
         val shipping = ShippingEntity(country = "cm")
         assertTrue(gateway.accept(request, shipping))
     }

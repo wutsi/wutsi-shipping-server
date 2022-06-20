@@ -2,10 +2,12 @@ package com.wutsi.ecommerce.shipping.service.gateway
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.ChangeStatusRequest
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.entity.OrderStatus
+import com.wutsi.ecommerce.shipping.dto.Product
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.service.Gateway
@@ -56,7 +58,11 @@ internal class InStorePickupGatewayTest {
 
     @Test
     fun accept() {
-        val request = SearchRateRequest()
+        val request = SearchRateRequest(
+            products = listOf(
+                Product(productId = 111, productType = ProductType.PHYSICAL.name)
+            )
+        )
         val shipping = ShippingEntity()
 
         assertTrue(gateway.accept(request, shipping))

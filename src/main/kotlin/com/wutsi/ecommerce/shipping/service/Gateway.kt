@@ -13,4 +13,6 @@ interface Gateway {
     fun computeRate(shipping: ShippingEntity): Double = shipping.rate ?: 0.0
 
     fun onOrderDone(order: Order) {}
+
+    fun onOrderOpened(order: Order) {}
 }

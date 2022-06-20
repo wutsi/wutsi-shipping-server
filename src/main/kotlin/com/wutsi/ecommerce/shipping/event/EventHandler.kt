@@ -23,7 +23,7 @@ class EventHandler(
 ) {
     @EventListener
     fun onEvent(event: Event) {
-        if (EventURN.ORDER_DONE.urn == event.type) {
+        if (EventURN.ORDER_DONE.urn == event.type || EventURN.ORDER_OPENED.urn == event.type) {
             // Payload
             val payload = objectMapper.readValue(event.payload, OrderEventPayload::class.java)
             logger.add("order_id", payload.orderId)
@@ -38,7 +38,11 @@ class EventHandler(
                 ?: return
 
             logger.add("gateway", gateway::class.java.simpleName)
-            gateway.onOrderDone(order)
+            when (event.type) {
+                EventURN.ORDER_DONE.urn -> gateway.onOrderDone(order)
+                EventURN.ORDER_OPENED.urn -> gateway.onOrderOpened(order)
+                else -> {}
+            }
         }
     }
 

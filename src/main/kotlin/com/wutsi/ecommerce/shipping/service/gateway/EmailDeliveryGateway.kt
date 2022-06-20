@@ -40,7 +40,10 @@ class EmailDeliveryGateway(
         return result
     }
 
-    override fun onOrderDone(order: Order) {
+    /**
+     * Send numeric products via email
+     */
+    override fun onOrderOpened(order: Order) {
         val email = order.shippingAddress?.email
             ?: return
         logger.add("recipient_email", email)

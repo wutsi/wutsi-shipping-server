@@ -95,7 +95,7 @@ internal class EmailDeliveryGatewayTest {
     }
 
     @Test
-    fun onOrderDone() {
+    fun onOrderOpened() {
         // GIVEN
         val product = com.wutsi.ecommerce.catalog.dto.Product(
             id = 1L,
@@ -122,7 +122,7 @@ internal class EmailDeliveryGatewayTest {
                 email = "ray.sponsible@gmail.com"
             )
         )
-        gateway.onOrderDone(order)
+        gateway.onOrderOpened(order)
 
         // THEN
         verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.IN_TRANSIT.name))
