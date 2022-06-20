@@ -39,7 +39,7 @@
     <wutsi-tenant.version>0.0.43</wutsi-tenant.version>
 
     <wutsi-catalog.version>0.0.45</wutsi-catalog.version>
-    <wutsi-order.version>0.0.28</wutsi-order.version>
+    <wutsi-order.version>0.0.31</wutsi-order.version>
   </properties>
 
   <dependencies>
