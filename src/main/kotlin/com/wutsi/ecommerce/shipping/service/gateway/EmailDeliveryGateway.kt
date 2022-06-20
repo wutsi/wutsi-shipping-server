@@ -56,6 +56,7 @@ class EmailDeliveryGateway(
         if (products.isEmpty())
             return
 
+        changeOrderStatus(order, OrderStatus.DONE)
         changeOrderStatus(order, OrderStatus.IN_TRANSIT)
         send(email, order, products)
         changeOrderStatus(order, OrderStatus.DELIVERED)

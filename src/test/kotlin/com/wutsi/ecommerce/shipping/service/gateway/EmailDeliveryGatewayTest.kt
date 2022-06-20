@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.ecommerce.catalog.WutsiCatalogApi
@@ -125,13 +126,14 @@ internal class EmailDeliveryGatewayTest {
         gateway.onOrderOpened(order)
 
         // THEN
+        verify(orderApi, times(3)).changeStatus(any(), any())
+        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DONE.name))
         verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.IN_TRANSIT.name))
+        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DELIVERED.name))
 
         val req = argumentCaptor<SendMessageRequest>()
         verify(mailApi).sendMessage(req.capture())
         assertEquals(order.shippingAddress?.email, req.firstValue.recipient.email)
         assertEquals("Ray Sponsible", req.firstValue.recipient.displayName)
-
-        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DELIVERED.name))
     }
 }
