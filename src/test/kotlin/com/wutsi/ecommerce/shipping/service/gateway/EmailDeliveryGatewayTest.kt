@@ -4,7 +4,6 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.ecommerce.catalog.WutsiCatalogApi
@@ -97,6 +96,47 @@ internal class EmailDeliveryGatewayTest {
 
     @Test
     fun onOrderOpened() {
+        // THEN
+        val order = Order(
+            id = "1111",
+            items = listOf(
+                OrderItem(productId = 1L),
+            ),
+            shippingAddress = Address(
+                firstName = "Ray",
+                lastName = "Sponsible",
+                email = "ray.sponsible@gmail.com"
+            )
+        )
+        gateway.onOrderOpened(order)
+
+        // THEN
+        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DONE.name))
+    }
+
+
+    @Test
+    fun onOrderDone() {
+        // THEN
+        val order = Order(
+            id = "1111",
+            items = listOf(
+                OrderItem(productId = 1L),
+            ),
+            shippingAddress = Address(
+                firstName = "Ray",
+                lastName = "Sponsible",
+                email = "ray.sponsible@gmail.com"
+            )
+        )
+        gateway.onOrderDone(order)
+
+        // THEN
+        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.IN_TRANSIT.name))
+    }
+
+    @Test
+    fun onOrderInTransit() {
         // GIVEN
         val product = com.wutsi.ecommerce.catalog.dto.Product(
             id = 1L,
@@ -123,12 +163,9 @@ internal class EmailDeliveryGatewayTest {
                 email = "ray.sponsible@gmail.com"
             )
         )
-        gateway.onOrderOpened(order)
+        gateway.onOrderInTransit(order)
 
         // THEN
-        verify(orderApi, times(3)).changeStatus(any(), any())
-        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DONE.name))
-        verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.IN_TRANSIT.name))
         verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DELIVERED.name))
 
         val req = argumentCaptor<SendMessageRequest>()

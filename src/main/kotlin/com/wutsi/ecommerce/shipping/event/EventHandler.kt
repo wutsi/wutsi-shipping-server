@@ -23,7 +23,7 @@ class EventHandler(
 ) {
     @EventListener
     fun onEvent(event: Event) {
-        if (EventURN.ORDER_DONE.urn == event.type || EventURN.ORDER_OPENED.urn == event.type) {
+        if (accept(event)) {
             // Payload
             val payload = objectMapper.readValue(event.payload, OrderEventPayload::class.java)
             logger.add("order_id", payload.orderId)
@@ -41,10 +41,18 @@ class EventHandler(
             when (event.type) {
                 EventURN.ORDER_DONE.urn -> gateway.onOrderDone(order)
                 EventURN.ORDER_OPENED.urn -> gateway.onOrderOpened(order)
+                EventURN.ORDER_IN_TRANSIT.urn -> gateway.onOrderInTransit(order)
+                EventURN.ORDER_DELIVERED.urn -> gateway.onOrderDelivered(order)
                 else -> {}
             }
         }
     }
+
+    private fun accept(event: Event): Boolean =
+        EventURN.ORDER_DONE.urn == event.type ||
+            EventURN.ORDER_OPENED.urn == event.type ||
+            EventURN.ORDER_IN_TRANSIT.urn == event.type ||
+            EventURN.ORDER_DELIVERED.urn == event.type
 
     private fun getGateway(order: Order): Gateway? {
         if (order.shippingId == null)

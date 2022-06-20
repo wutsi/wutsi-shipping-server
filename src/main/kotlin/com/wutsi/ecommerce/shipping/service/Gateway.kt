@@ -15,4 +15,8 @@ interface Gateway {
     fun onOrderDone(order: Order) {}
 
     fun onOrderOpened(order: Order) {}
+
+    fun onOrderInTransit(order: Order) {}
+
+    fun onOrderDelivered(order: Order) {}
 }

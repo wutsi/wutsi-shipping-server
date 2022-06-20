@@ -80,4 +80,36 @@ internal class EventHandlerTest : AbstractSecuredController() {
         // THEN
         verify(gateway).onOrderOpened(order)
     }
+
+    @Test
+    fun onOrderInTransit() {
+        // GIVEN
+        val payload = OrderEventPayload("111")
+
+        // WHEN
+        val event = Event(
+            type = com.wutsi.ecommerce.order.event.EventURN.ORDER_IN_TRANSIT.urn,
+            payload = ObjectMapper().writeValueAsString(payload)
+        )
+        handler.onEvent(event)
+
+        // THEN
+        verify(gateway).onOrderInTransit(order)
+    }
+
+    @Test
+    fun onOrderInDelivered() {
+        // GIVEN
+        val payload = OrderEventPayload("111")
+
+        // WHEN
+        val event = Event(
+            type = com.wutsi.ecommerce.order.event.EventURN.ORDER_DELIVERED.urn,
+            payload = ObjectMapper().writeValueAsString(payload)
+        )
+        handler.onEvent(event)
+
+        // THEN
+        verify(gateway).onOrderDelivered(order)
+    }
 }

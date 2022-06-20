@@ -44,6 +44,14 @@ class EmailDeliveryGateway(
      * Send numeric products via email
      */
     override fun onOrderOpened(order: Order) {
+        changeOrderStatus(order, OrderStatus.DONE)
+    }
+
+    override fun onOrderDone(order: Order) {
+        changeOrderStatus(order, OrderStatus.IN_TRANSIT)
+    }
+
+    override fun onOrderInTransit(order: Order) {
         val email = order.shippingAddress?.email
             ?: return
         logger.add("recipient_email", email)
@@ -56,8 +64,6 @@ class EmailDeliveryGateway(
         if (products.isEmpty())
             return
 
-        changeOrderStatus(order, OrderStatus.DONE)
-        changeOrderStatus(order, OrderStatus.IN_TRANSIT)
         send(email, order, products)
         changeOrderStatus(order, OrderStatus.DELIVERED)
     }
