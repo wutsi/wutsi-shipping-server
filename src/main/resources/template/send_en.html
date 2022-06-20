@@ -1,0 +1,14 @@
+{{#scope}}
+Your Order #{{orderId}} is available for download
+{{recipientFullName}}
+<br/>
+Thank you for your Order.
+<br/><br/>
+Veuillez télécharger les fichiers de vos produits:
+<ul>
+    {{#products}}
+    <li><a href="{{{numericFileUrl}}}">{{title}}</a></li>
+    {{/products}}
+</ul>
+<br/>
+{{/scope}}

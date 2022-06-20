@@ -18,7 +18,7 @@ internal class GatewayProviderTest {
     private val logger = mock<KVLogger>()
     private val provider = GatewayProvider(
         InStorePickupGateway(orderApi, logger),
-        EmailDeliveryGateway(logger),
+        EmailDeliveryGateway(mock(), mock(), mock(), mock(), mock()),
         LocalPickupGateway(logger),
         InternationalDeliveryGateway(logger),
         LocalDeliveryGateway(logger)
