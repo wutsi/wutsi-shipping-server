@@ -1,5 +1,6 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
+import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.service.Gateway
@@ -16,10 +17,12 @@ class LocalDeliveryGateway(
         tenant.toggles.find { it.name == ToggleName.SHIPPING_LOCAL_DELIVERY.name } != null
 
     /**
-     * Accept only request in the same city
+     * Accept only request in the same city, and contains physical products
      */
     override fun accept(request: SearchRateRequest, shipping: ShippingEntity): Boolean {
-        val result = shipping.cityId != null && request.cityId == shipping.cityId
+        val result = shipping.cityId != null &&
+            request.cityId == shipping.cityId &&
+            request.products.find { it.productType == ProductType.PHYSICAL.name } != null
 
         logger.add("gateway_local", result)
         logger.add("gateway_local_city_id", shipping.cityId)

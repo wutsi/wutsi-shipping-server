@@ -1,5 +1,6 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
+import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.ChangeStatusRequest
 import com.wutsi.ecommerce.order.dto.Order
@@ -21,11 +22,13 @@ class InStorePickupGateway(
         tenant.toggles.find { it.name == ToggleName.SHIPPING_IN_STORE_PICKUP.name } != null
 
     /**
-     * Accept only request in the same city
+     * Accept only if there are physical products
      */
     override fun accept(request: SearchRateRequest, shipping: ShippingEntity): Boolean {
-        logger.add("gateway_instore", true)
-        return true
+        val result = request.products.find { it.productType == ProductType.PHYSICAL.name } != null
+
+        logger.add("gateway_instore", result)
+        return result
     }
 
     override fun onOrderDone(order: Order) {

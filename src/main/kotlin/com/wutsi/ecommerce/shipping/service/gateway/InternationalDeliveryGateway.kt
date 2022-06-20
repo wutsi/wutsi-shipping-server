@@ -1,5 +1,6 @@
 package com.wutsi.ecommerce.shipping.service.gateway
 
+import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.shipping.dto.SearchRateRequest
 import com.wutsi.ecommerce.shipping.entity.ShippingEntity
 import com.wutsi.ecommerce.shipping.service.Gateway
@@ -16,10 +17,12 @@ class InternationalDeliveryGateway(
         tenant.toggles.find { it.name == ToggleName.SHIPPING_INTERNATIONAL_DELIVERY.name } != null
 
     /**
-     * Accept if the shopping contry is different
+     * Accept if the shopping contry is different, and contains physical products
      */
     override fun accept(request: SearchRateRequest, shipping: ShippingEntity): Boolean {
-        val result = shipping.country != null && shipping.country.equals(request.country, true)
+        val result = shipping.country != null &&
+            shipping.country.equals(request.country, true) &&
+            request.products.find { it.productType == ProductType.PHYSICAL.name } != null
 
         logger.add("gateway_international", result)
         logger.add("gateway_international_country", shipping.country)
