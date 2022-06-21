@@ -44,17 +44,22 @@ class EmailDeliveryGateway(
      * Send numeric products via email
      */
     override fun onOrderOpened(order: Order) {
+        if (order.status == OrderStatus.CANCELLED.name)
+            return
+
         changeOrderStatus(order, OrderStatus.DONE)
     }
 
     override fun onOrderDone(order: Order) {
+        if (order.status == OrderStatus.CANCELLED.name)
+            return
+
         changeOrderStatus(order, OrderStatus.IN_TRANSIT)
     }
 
     override fun onOrderInTransit(order: Order) {
-        val email = order.shippingAddress?.email
-            ?: return
-        logger.add("recipient_email", email)
+        if (order.status == OrderStatus.CANCELLED.name)
+            return
 
         // Digital product to ship
         val products = order.items.map {
@@ -64,7 +69,13 @@ class EmailDeliveryGateway(
         if (products.isEmpty())
             return
 
+        // Send email
+        val email = order.shippingAddress?.email
+            ?: return
+        logger.add("recipient_email", email)
         send(email, order, products)
+
+        // Update status
         changeOrderStatus(order, OrderStatus.DELIVERED)
     }
 
