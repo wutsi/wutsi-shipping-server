@@ -114,7 +114,6 @@ internal class EmailDeliveryGatewayTest {
         verify(orderApi).changeStatus(order.id, ChangeStatusRequest(status = OrderStatus.DONE.name))
     }
 
-
     @Test
     fun onOrderDone() {
         // THEN
